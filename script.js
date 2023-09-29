@@ -5,12 +5,12 @@ const expenseAmount = document.getElementById("amount");
 const addData = document.getElementById("btn");
 const expenseDatadiv = document.querySelector(".expense-data");
 
-// Define the API endpoint URL
-const apiUrl = "https://crudcrud.com/api/44874fb980e14e34b3434c4348864e80/expense";
+
+const apiUrl = "https://crudcrud.com/api/e0013f2201c241c09e8434687cd17dbe/expense";
 
 let expenseTable;
 
-// Function to create the table
+
 function createTable() {
   if(!expenseTable){
     createTable = function () {};
@@ -26,7 +26,7 @@ function createTable() {
   
 }
 
-// Function to create a new row in the table
+
 function createTableData() {
   const expenseTable = document.querySelector(".my-expenses");
   const row = expenseTable.insertRow();
@@ -37,7 +37,7 @@ function createTableData() {
   );
 }
 
-// Function to post expense data to the API
+
 async function postExpense(name, date, amount) {
   try {
     const response = await axios.post(apiUrl, {
@@ -51,7 +51,7 @@ async function postExpense(name, date, amount) {
   }
 }
 
-// Function to retrieve expenses from the API and display them in the table
+
 async function getExpenses() {
   try {
     if(!expenseTable){
@@ -85,11 +85,11 @@ async function getExpenses() {
         }
       });
       
-      // Add a delete event listener for each delete button
+      
       const deleteButton = row.querySelector(".delete-expense");
       deleteButton.addEventListener("click", async () => {
-        await deleteExpense(expense._id); // Delete the expense from the API
-        row.remove(); // Remove the row from the table
+        await deleteExpense(expense._id); 
+        row.remove(); 
       });
     });
   } catch (error) {
@@ -97,7 +97,7 @@ async function getExpenses() {
   }
 }
 
-// Function to delete an expense from the API
+
 async function deleteExpense(expenseId) {
   try {
     await axios.delete(`${apiUrl}/${expenseId}`);
@@ -106,7 +106,7 @@ async function deleteExpense(expenseId) {
   }
 }
 
-// Event listener for adding expense data
+
 addData.addEventListener("click", async () => {
   if (
     expenseName.value.length === 0 ||
@@ -122,8 +122,8 @@ addData.addEventListener("click", async () => {
     expenseDate.value = "";
     expenseAmount.value = "";
 
-    const newExpense = await postExpense(name, Date, amount); // Post the expense to the API
-    createTableData(); // Create a new row for the added expense
+    const newExpense = await postExpense(name, Date, amount); 
+    createTableData(); 
 
     const expenseNameTable = document.querySelectorAll(".expense-name");
     const expenseDateTable = document.querySelectorAll(".expense-date");
@@ -145,17 +145,17 @@ addData.addEventListener("click", async () => {
       }
     });
 
-    // Add a delete event listener for the new delete button
+    
     const row = expenseDatadiv.querySelector(".my-expenses").rows[
       expenseDatadiv.querySelector(".my-expenses").rows.length - 1
     ];
     const deleteButton = row.querySelector(".delete-expense");
     deleteButton.addEventListener("click", async () => {
-      await deleteExpense(newExpense.id); // Delete the added expense from the API
-      row.remove(); // Remove the row from the table
+      await deleteExpense(newExpense.id); 
+      row.remove(); 
     });
   }
 });
 
-// Initialize the application by loading existing expenses from the API
+
 getExpenses();
